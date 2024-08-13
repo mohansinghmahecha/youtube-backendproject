@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube</title>
+</head>
+<!-- internal css is used here -->
+<style>
+    button{
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    button:hover{
+        background-color: #ee9b01;
+        cursor: pointer;
+       
+    }
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .m-full{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    border: 2px solid yellow;
+    border-radius: 2%;
+    background: rgb(141,63,251);
+background: radial-gradient(circle, rgba(141,63,251,1) 0%, rgba(252,70,107,1) 100%);
+}
+
+.space{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    
+    font-size: large;
+}
+img{
+    width: 300px;
+    height: 100px;
+}
+@media only screen and (max-width: 768px) and (min-width: 600px)  {
+    img{
+    width: 200px;
+    height: 60px;
+}
+}
+
+@media only screen and (max-width: 600px) {
+    img{
+    width: 150px;
+    height: 30px;
+    }
+    button{
+        width: 80px;
+        height: 40px;
+        border-radius: 20%;
+        border: red;
+        background-color: cornflowerblue;
+    }
+}
+</style>
+
+
+<script>
+    let boxVariable = undefined;
+
+    function buttonPressed() {
+        console.log("clicked successfully");
+        if (!boxVariable || boxVariable.trim() === "") {
+            return alert("Kindly Provide an ID");
+        } else {
+            window.open(`http://localhost:3000/subscribers/${boxVariable}`, '_blank');
+        }
+    }
+
+    function updateInput(v) {
+        boxVariable = v.target.value;
+    }
+</script>
+<body>
+    <div class="m-full">
+        <img src="./assets/al.png" alt="almabetter-logo">
+        <!-- main heading -->
+        <h1>YouTube Backend</h1>
+        <hr style="width:50%;text-align:left;margin-left:0"> 
+
+        <!-- all the api which need to display -->
+        <ul style="text-align: left; margin: 40px; ">
+
+            <li class="space">Get <a href="http://localhost:3000/subscribers" target="_blank"><span style="background-color: rgb(0, 0, 0);color: white; padding-left: 20px; padding-right: 20px;">/subscribers</span></a> Response with an array of subscribers  </li>
+
+            <li class="space">Get <a href="http://localhost:3000/subscribers/names" target="_blank"><span style="background-color: rgb(0, 0, 0);color: white; padding-left: 20px; padding-right: 20px;">/subscribers/names</span></a>Response with an array of subscribers(an Object with only two fields name and subscribedChannel</li>
+            <li class="space">Get <span style="background-color: rgb(0, 0, 0);color: rgb(196, 165, 165); padding-left: 20px; padding-right: 20px;">/subscribers/:id <spann></spann></span></a> <input type="text" placeholder="Enter Id" onchange="updateInput(event)"></input><button  onclick="buttonPressed()">Go</button> <p>Response with a subscriber*(an object)* with given id. Response with status code 400 and Error message</p></li>
+            
+        </ul>
+       
+    </div>
+    
+</body>
+</html>
