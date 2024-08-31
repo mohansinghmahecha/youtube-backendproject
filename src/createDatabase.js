@@ -4,7 +4,10 @@ require("dotenv").config();
 const Subscriber = require("./models/subscribers"); // Import the model
 const datafile = require("./data"); // Import the data given by the almabetter
 
-const DATABASE_URL = "mongodb://localhost:27017/you";
+/* Main url for the database */
+// const DATABASE_URL = "mongodb://localhost:27017/youtube-backend";
+const DATABASE_URL =
+  "mongodb+srv://mohansinghmahecha2000:uRyluGTuCIQXjefE@cluster0.ue1ll.mongodb.net/youtube-backend";
 
 // Connect to MongoDB and create database
 mongoose

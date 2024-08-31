@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-const app = require("../App"); // importing our full of response file 
+const app = require("../App"); // importing our full of response file
 
 const DATABASE_URL =
   process.env.DATABASE_URL || "mongodb://localhost:27017/youtube-backend";
@@ -14,12 +14,12 @@ mongoose
   .then(() => {
     console.log("Connected to database");
     app.listen(port, () => {
-      // it will show the port number into the console 
+      // it will show the port number into the console
       console.log(`Server is running on port ${port}`);
     });
   })
   .catch((err) => {
-    // if anything goes wrong 
+    // if anything goes wrong
     console.error("Error connecting to database:", err);
     process.exit(1);
   });
