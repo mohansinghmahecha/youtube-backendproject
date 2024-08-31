@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-require('dotenv').config(); // If using environment variables
+
 
 exports.handler = async (event, context) => {
   const client = new MongoClient("mongodb+srv://mohansinghmahecha2000:uRyluGTuCIQXjefE@cluster0.ue1ll.mongodb.net/youtube-backend");
