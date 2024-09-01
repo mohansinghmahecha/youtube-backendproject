@@ -17,8 +17,7 @@ exports.handler = async (event, context) => {
     const pathParts = event.path.split("/");
     const id = pathParts[pathParts.length - 1];
 
-    // Check if the path has an ID and if it's a valid ObjectId
-    if (pathParts.length > 2 && id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
       // Fetch the subscriber by ID
       subscribers = await collection.findOne({ _id: new ObjectId(id) });
 
