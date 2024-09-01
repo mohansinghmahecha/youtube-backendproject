@@ -26,14 +26,14 @@ app.get("/subscribers", async (req, res) => {
 // two fields name and subscribedChannel
 app.get("/subscribers/names", async (req, res) => {
   try {
-    const customizedList = await Subscriber.find({}, "name subscribedChannel");
+    // Use projection to include only the `name` and `subscribedChannel` fields
+    const customizedList = await Subscriber.find({}, 'name subscribedChannel').exec();
     res.json(customizedList);
   } catch (err) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching subscribers." });
+    res.status(500).json({ error: "An error occurred while fetching subscribers." });
   }
 });
+
 
 // http://localhost:3000/subscribers/:id) Response with a subscriber*(an object)*
 app.get("/subscribers/:id", async (req, res) => {
