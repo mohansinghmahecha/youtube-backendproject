@@ -12,17 +12,22 @@ exports.handler = async (event, context) => {
     const collection = database.collection("subscribers");
 
     let subscribers;
-
-    // Extract the ID from the path
     const pathParts = event.path.split("/");
     const id = pathParts[pathParts.length - 1];
 
-    if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
-      // Fetch the subscriber by ID
+    if (event.path === "/subscribers") {
+      // Route: /subscribers
+      subscribers = await collection.find({}).toArray();
+    } else if (event.path === "/subscribers/names") {
+      // Route: /subscribers/names
+      subscribers = await collection
+        .find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } })
+        .toArray();
+    } else if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
+      // Route: /subscribers/:id
       subscribers = await collection.findOne({ _id: new ObjectId(id) });
 
       if (!subscribers) {
-        // Respond with 404 if no subscriber is found
         return {
           statusCode: 404,
           body: JSON.stringify({
@@ -30,11 +35,6 @@ exports.handler = async (event, context) => {
           }),
         };
       }
-    } else if (event.path.endsWith("/names")) {
-      // If the path ends with '/names', fetch subscribers with specific fields
-      subscribers = await collection
-        .find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } })
-        .toArray();
     } else if (id) {
       // If the ID format is incorrect, respond with a 400 Bad Request
       return {
@@ -44,8 +44,13 @@ exports.handler = async (event, context) => {
         }),
       };
     } else {
-      // If no specific ID or '/names' is provided, fetch all subscribers
-      subscribers = await collection.find({}).toArray();
+      // Handle unexpected routes
+      return {
+        statusCode: 404,
+        body: JSON.stringify({
+          message: "Not Found",
+        }),
+      };
     }
 
     // Return a successful response with the data
