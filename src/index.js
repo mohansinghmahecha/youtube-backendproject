@@ -7,7 +7,7 @@ const app = require("../App"); // importing our full of response file
 case 
 defalut port number of mongoDb is 27017.
 
-const port  = is used to view the output into the browser : 3000
+const port = is used to view the output into the browser : 3000
 */
 const DATABASE_URL =
   process.env.DATABASE_URL || "mongodb://localhost:27017/youtube-backend";
