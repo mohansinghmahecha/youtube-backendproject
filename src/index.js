@@ -2,6 +2,13 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const app = require("../App"); // importing our full of response file
 
+
+/* if you are in local machine you can change the "DATABASE_URL " according to your localhostport number in my 
+case 
+defalut port number of mongoDb is 27017.
+
+const port  = is used to view the output into the browser : 3000
+*/
 const DATABASE_URL =
   process.env.DATABASE_URL || "mongodb://localhost:27017/youtube-backend";
 const port = process.env.PORT_DEFAULT || 3000;

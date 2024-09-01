@@ -1,10 +1,9 @@
-// App.js
 require("dotenv").config(); //for .env file
 const express = require("express");
 
-const Subscriber = require("./src/models/subscribers"); // Correct
+const Subscriber = require("./src/models/subscribers"); // model of subscribers here we described datatypes
 
-const app = express();
+const app = express();// ready to use of express
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

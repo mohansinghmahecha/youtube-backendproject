@@ -13,18 +13,22 @@
 </head>
 <style>
     /* our css file */
+    /* css for button */
     button{
         padding-left: 8px;
         padding-right: 8px;
     }
+    /* on button hover */
     button:hover{
         background-color: #ee9b01;
         cursor: pointer;
     }
+    /* default margin and padding */
     *{
         margin: 0;
         padding: 0;
     }
+    /* main box container */
     .m-full{
         display: flex;
         min-height: 100vh;
@@ -40,15 +44,18 @@
         background: rgb(141,63,251);
         background: radial-gradient(circle, rgba(141,63,251,1) 0%, rgba(252,70,107,1) 100%);
     }
+
     .space{
         margin-bottom: 10px;
         margin-top: 10px;
         font-size: large;
     }
+    /* logo image  */
     img{
         width: 300px;
         height: 100px;
     }
+    /* for better responsiveness for the tablet  */
     @media only screen and (max-width: 768px) and (min-width: 600px)  {
         img{
             width: 200px;
@@ -72,7 +79,7 @@
 <script>
     let boxVariable = undefined;
 
-    /* when button pressed */
+    /* When we know the id , we typed into the input and click on "Go" named button it will show the result  */
     function buttonPressed() {
         console.log("clicked successfully");
         if (!boxVariable || boxVariable.trim() === "") {
@@ -92,6 +99,8 @@
         <img src="./assets/al.png" alt="almabetter-logo">
         <h1>YouTube Backend</h1>
         <hr style="width:50%;text-align:left;margin-left:0"> 
+
+        <!-- for online view used used function of netlify to achieve the router functinality  -->
         <ul style="text-align: left; margin: 40px;">
             <!-- all the links to view the responses it is according to almabetter -->
             <li class="space">Get <a href="https://almabeteryoutube.netlify.app/.netlify/functions/getSubscribers" target="_blank"><span style="background-color: rgb(0, 0, 0);color: white; padding-left: 20px; padding-right: 20px;">/subscribers</span></a> Response with an array of subscribers</li>
@@ -99,17 +108,17 @@
             <li class="space">Get <span style="background-color: rgb(0, 0, 0);color: rgb(196, 165, 165); padding-left: 20px; padding-right: 20px;">/subscribers/:id</span> <input type="text" placeholder="Enter Id" onchange="updateInput(event)"></input><button onclick="buttonPressed()">Go</button> <p>Response with a subscriber (an object) with the given id. Response with status code 400 and Error message</p></li>
         </ul>
 
-        <!-- if you want to open file using localhost:3000 then use this ul attributes -->
-         <!-- 
-        <ul style="text-align: left; margin: 40px; ">
+        
+        <!-- if you want to open file using localhost:3000 then use this ul attributes -->         
+      <!--   <ul style="text-align: left; margin: 40px; ">
 
             <li class="space">Get <a href="http://localhost:3000/subscribers" target="_blank"><span style="background-color: rgb(0, 0, 0);color: white; padding-left: 20px; padding-right: 20px;">/subscribers</span></a> Response with an array of subscribers  </li>
 
             <li class="space">Get <a href="http://localhost:3000/subscribers/names" target="_blank"><span style="background-color: rgb(0, 0, 0);color: white; padding-left: 20px; padding-right: 20px;">/subscribers/names</span></a>Response with an array of subscribers(an Object with only two fields name and subscribedChannel</li>
             <li class="space">Get <span style="background-color: rgb(0, 0, 0);color: rgb(196, 165, 165); padding-left: 20px; padding-right: 20px;">/subscribers/:id <spann></spann></span></a> <input type="text" placeholder="Enter Id" onchange="updateInput(event)"></input><button  onclick="buttonPressed()">Go</button> <p>Response with a subscriber*(an object)* with given id. Response with status code 400 and Error message</p></li>
 
-        </ul>
-         -->
+        </ul> -->
+         
     </div>
 </body>
 </html>
