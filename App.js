@@ -1,7 +1,7 @@
 require("dotenv").config(); // For .env file
 const express = require("express");
 const mongoose = require("mongoose");
-const Subscriber = require("./models/subscribers"); // Model of subscribers
+const Subscriber = require("./src/models/subscribers"); // Model of subscribers
 
 const app = express(); // Ready to use express
 
