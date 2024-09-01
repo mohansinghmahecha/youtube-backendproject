@@ -35,6 +35,14 @@ exports.handler = async (event, context) => {
       subscribers = await collection
         .find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } })
         .toArray();
+    } else if (id) {
+      // If the ID format is incorrect, respond with a 400 Bad Request
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: "Invalid subscriber ID format",
+        }),
+      };
     } else {
       // If no specific ID or '/names' is provided, fetch all subscribers
       subscribers = await collection.find({}).toArray();
