@@ -62,7 +62,7 @@ Use index.js connect and start server
   
 ```
 
-Enter Data In MongoDB Must Be Connected With MongoDb Compass using
+Enter Data Into MongoDB and Must Be Connected With MongoDb Compass using
 "mongodb://localhost:27017/youtube-backend"
 
 ```bash
@@ -75,7 +75,7 @@ cd src
 node createDatabase.js
 ```
 
-it will start server in port 3000 you must be in the "src" folder
+it will start server in port 3000 , you must be in the "src" folder
 ```bash
  cd src
 ```
