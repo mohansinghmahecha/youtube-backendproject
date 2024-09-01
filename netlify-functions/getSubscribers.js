@@ -12,22 +12,21 @@ exports.handler = async (event, context) => {
     const collection = database.collection("subscribers");
 
     let subscribers;
+
+    // Check the route to handle different cases
     const pathParts = event.path.split("/");
     const id = pathParts[pathParts.length - 1];
 
-    if (event.path === "/subscribers") {
-      // Route: /subscribers
-      subscribers = await collection.find({}).toArray();
-    } else if (event.path === "/subscribers/names") {
-      // Route: /subscribers/names
-      subscribers = await collection
-        .find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } })
-        .toArray();
-    } else if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
-      // Route: /subscribers/:id
+    if (
+      pathParts.length === 3 &&
+      pathParts[1] === "subscribers" &&
+      id.match(/^[0-9a-fA-F]{24}$/)
+    ) {
+      // Fetch the subscriber by ID
       subscribers = await collection.findOne({ _id: new ObjectId(id) });
 
       if (!subscribers) {
+        // Respond with 404 if no subscriber is found
         return {
           statusCode: 404,
           body: JSON.stringify({
@@ -35,20 +34,20 @@ exports.handler = async (event, context) => {
           }),
         };
       }
-    } else if (id) {
-      // If the ID format is incorrect, respond with a 400 Bad Request
+    } else if (event.path.endsWith("/names")) {
+      // If the path ends with '/names', fetch subscribers with specific fields
+      subscribers = await collection
+        .find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } })
+        .toArray();
+    } else if (pathParts.length === 2 && pathParts[1] === "subscribers") {
+      // If the path is '/subscribers', fetch all subscribers
+      subscribers = await collection.find({}).toArray();
+    } else {
+      // Return 400 Bad Request if the path does not match any known routes
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: "Invalid subscriber ID format",
-        }),
-      };
-    } else {
-      // Handle unexpected routes
-      return {
-        statusCode: 404,
-        body: JSON.stringify({
-          message: "Not Found",
+          message: "Invalid route",
         }),
       };
     }
