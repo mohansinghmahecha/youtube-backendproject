@@ -13,20 +13,25 @@ exports.handler = async (event, context) => {
 
     let subscribers;
 
-    // Check the route to handle different cases
+    // Extract the ID from the path
     const pathParts = event.path.split("/");
     const id = pathParts[pathParts.length - 1];
 
-    if (
-      pathParts.length === 3 &&
-      pathParts[1] === "subscribers" &&
-      id.match(/^[0-9a-fA-F]{24}$/)
+    if (event.path === "/.netlify/functions/getSubscribers/subscribers") {
+      // Route: /subscribers
+      subscribers = await collection.find({}).toArray();
+    } else if (
+      event.path === "/.netlify/functions/getSubscribers/subscribers/names"
     ) {
-      // Fetch the subscriber by ID
+      // Route: /subscribers/names
+      subscribers = await collection
+        .find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } })
+        .toArray();
+    } else if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
+      // Route: /subscribers/:id
       subscribers = await collection.findOne({ _id: new ObjectId(id) });
 
       if (!subscribers) {
-        // Respond with 404 if no subscriber is found
         return {
           statusCode: 404,
           body: JSON.stringify({
@@ -34,18 +39,18 @@ exports.handler = async (event, context) => {
           }),
         };
       }
-    } else if (event.path.endsWith("/names")) {
-      // If the path ends with '/names', fetch subscribers with specific fields
-      subscribers = await collection
-        .find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } })
-        .toArray();
-    } else if (pathParts.length === 2 && pathParts[1] === "subscribers") {
-      // If the path is '/subscribers', fetch all subscribers
-      subscribers = await collection.find({}).toArray();
-    } else {
-      // Return 400 Bad Request if the path does not match any known routes
+    } else if (id) {
+      // If the ID format is incorrect, respond with a 400 Bad Request
       return {
         statusCode: 400,
+        body: JSON.stringify({
+          message: "Invalid subscriber ID format",
+        }),
+      };
+    } else {
+      // Handle unexpected routes
+      return {
+        statusCode: 404,
         body: JSON.stringify({
           message: "Invalid route",
         }),
