@@ -13,15 +13,17 @@ exports.handler = async (event, context) => {
 
     let subscribers;
 
-    // Check if the request path ends with an ID
+    // Extract the ID from the path
     const pathParts = event.path.split("/");
     const id = pathParts[pathParts.length - 1];
 
+    // Check if the path has an ID and if it's a valid ObjectId
     if (pathParts.length > 2 && id.match(/^[0-9a-fA-F]{24}$/)) {
-      // If an ID is provided, fetch the subscriber by ID
+      // Fetch the subscriber by ID
       subscribers = await collection.findOne({ _id: new ObjectId(id) });
 
       if (!subscribers) {
+        // Respond with 404 if no subscriber is found
         return {
           statusCode: 404,
           body: JSON.stringify({
@@ -39,16 +41,19 @@ exports.handler = async (event, context) => {
       subscribers = await collection.find({}).toArray();
     }
 
+    // Return a successful response with the data
     return {
       statusCode: 200,
       body: JSON.stringify(subscribers),
     };
   } catch (error) {
+    // Return a 400 status code for any errors
     return {
       statusCode: 400,
       body: JSON.stringify({ message: error.message }),
     };
   } finally {
+    // Ensure the client is always closed
     await client.close();
   }
 };
