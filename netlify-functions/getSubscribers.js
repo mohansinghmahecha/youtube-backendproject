@@ -44,7 +44,8 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: "Invalid subscriber ID format",
+          message: "Invalid subscriber ID ",
+          statusCode:400
         }),
       };
     } else {
