@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 
 exports.handler = async (event, context) => {
-  const client = new MongoClient("mongodb+srv://mohansinghmahecha2000:uRyluGTuCIQXjefE@cluster0.ue1ll.mongodb.net/youtube-backend");
-  
+  const client = new MongoClient("mongodb+srv://mohansinghmahecha2000:uRyluGTuCIQXjefE@cluster0.ue1ll.mongodb.net/youtube-backend", { useNewUrlParser: true, useUnifiedTopology: true });
+
   try {
     await client.connect();
     const database = client.db('youtube-backend');
@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
     let subscribers;
 
     if (event.path.endsWith('/names')) {
-      subscribers = await collection.find({}, { projection: { name: 1, subscribedChannel: 1 } }).toArray();
+      subscribers = await collection.find({}, { projection: { name: 1, subscribedChannel: 1, _id: 0 } }).toArray();
     } else {
       subscribers = await collection.find({}).toArray();
     }
